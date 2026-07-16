@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from ..dummy_data import security_events, transactions
+from app.dummy_data import security_events, transactions
 
 router = APIRouter(
     tags=["Analytics"]
