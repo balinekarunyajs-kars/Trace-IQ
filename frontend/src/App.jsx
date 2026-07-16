@@ -1,23 +1,41 @@
-import Sidebar from "./components/layout/Sidebar";
-import Navbar from "./components/layout/Navbar";
-import Dashboard from "./pages/Dashboard";
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
+import Sidebar from './components/layout/Sidebar'
+import Navbar from './components/layout/Navbar'
+import Dashboard from './pages/Dashboard'
+import Investigations from './pages/Investigations'
+import SecurityEvents from './pages/SecurityEvents'
+import Transactions from './pages/Transactions'
+import Analytics from './pages/Analytics'
 
-function App() {
+function AppContent() {
+  const location = useLocation()
+  const isFullScreen = false
+
   return (
-    <div className="flex bg-[#08111F] text-white min-h-screen">
-
+    <div className="flex h-screen bg-[#08111F]">
       <Sidebar />
-
-      <div className="flex-1">
-
+      <div className="flex-1 flex flex-col overflow-hidden">
         <Navbar />
-
-        <Dashboard />
-
+        <main className="flex-1 overflow-auto">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/investigations" element={<Investigations />} />
+            <Route path="/investigations/:id" element={<Investigations />} />
+            <Route path="/security-events" element={<SecurityEvents />} />
+            <Route path="/transactions" element={<Transactions />} />
+            <Route path="/analytics" element={<Analytics />} />
+          </Routes>
+        </main>
       </div>
-
     </div>
-  );
+  )
 }
 
-export default App;
+export default function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  )
+}
