@@ -1,5 +1,5 @@
-from ..models import InvestigationCase
-from ..dummy_data import security_events, transactions
+from app.models import InvestigationCase
+from app.dummy_data import security_events, transactions
 
 from .behaviour import analyze_behaviour
 from .classifier import classify_threat

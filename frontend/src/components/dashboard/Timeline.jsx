@@ -1,49 +1,105 @@
 import React from 'react'
-import { CheckCircle, AlertCircle } from 'lucide-react'
+import { Shield, CreditCard, AlertTriangle, CheckCircle } from 'lucide-react'
+
+const typeMap = {
+  'Security Event': { icon: Shield,     color: '#00D4FF', label: 'SECURITY' },
+  'Transaction':    { icon: CreditCard, color: '#FF9F0A', label: 'TRANSACTION' },
+}
+
+const getSeverityColor = (sev) => ({
+  Critical: '#FF2D55',
+  High:     '#FF9F0A',
+  Medium:   '#FFD60A',
+  Low:      '#30D158',
+}[sev] || '#00D4FF')
 
 export default function Timeline({ events = [] }) {
-  return (
-    <div className="bg-[#101B2D] border border-[#1E293B] rounded-lg p-6">
-      <h3 className="text-lg font-semibold text-[#F1F5F9] mb-6">Attack Timeline</h3>
-      <div className="space-y-6">
-        {events.map((event, index) => (
-          <div key={index} className="flex gap-4">
-            {/* Timeline line and circle */}
-            <div className="flex flex-col items-center">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                event.status === 'executed'
-                  ? 'bg-[#EF4444] bg-opacity-20'
-                  : 'bg-[#22C55E] bg-opacity-20'
-              }`}>
-                {event.status === 'executed' ? (
-                  <AlertCircle className="w-6 h-6 text-[#EF4444]" />
-                ) : (
-                  <CheckCircle className="w-6 h-6 text-[#22C55E]" />
-                )}
-              </div>
-              {index < events.length - 1 && (
-                <div className="w-0.5 h-12 bg-gradient-to-b from-[#00C2FF] to-[#1E293B] my-2"></div>
-              )}
-            </div>
+  if (!events || events.length === 0) {
+    return (
+      <div className="card p-6">
+        <p className="section-label mb-4">Attack Timeline</p>
+        <div className="text-center py-8">
+          <AlertTriangle className="w-8 h-8 mx-auto mb-2" style={{ color: '#1a2744' }} />
+          <p className="font-mono text-xs" style={{ color: '#3D5570' }}>No timeline data available</p>
+        </div>
+      </div>
+    )
+  }
 
-            {/* Event content */}
-            <div className="flex-1 pt-1">
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-[#F1F5F9] font-semibold">{event.event}</p>
-                  <p className="text-[#94A3B8] text-sm mt-1">{event.time}</p>
+  return (
+    <div className="card p-6" style={{ borderTopColor: '#BF5AF2', borderTopWidth: '2px' }}>
+      <p className="section-label mb-6">Attack Timeline</p>
+
+      <div className="relative">
+        {/* Vertical rail */}
+        <div
+          className="absolute left-4 top-0 bottom-0 w-px"
+          style={{ background: 'linear-gradient(to bottom, #00D4FF, #BF5AF2, #FF2D55, transparent)' }}
+        />
+
+        <div className="space-y-0 pl-10">
+          {events.map((ev, i) => {
+            const label     = ev.description || ev.event || 'Unknown Event'
+            const timestamp = ev.timestamp   || ev.time  || ''
+            const type      = ev.type        || 'Security Event'
+            const isTx      = type === 'Transaction'
+            const meta      = typeMap[type] || typeMap['Security Event']
+            const Icon      = meta.icon
+            const dotColor  = isTx ? '#FF9F0A' : getSeverityColor(ev.severity || 'High')
+
+            return (
+              <div key={i} className="relative pb-6 last:pb-0">
+                {/* Dot on the rail */}
+                <div
+                  className="absolute -left-[26px] top-1 w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+                  style={{
+                    background: `${dotColor}20`,
+                    border: `1px solid ${dotColor}60`,
+                    boxShadow: `0 0 8px ${dotColor}50`,
+                  }}
+                >
+                  <Icon className="w-2.5 h-2.5" style={{ color: dotColor }} />
                 </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                  event.status === 'executed'
-                    ? 'bg-[#EF4444] bg-opacity-20 text-[#EF4444]'
-                    : 'bg-[#22C55E] bg-opacity-20 text-[#22C55E]'
-                }`}>
-                  {event.status === 'executed' ? 'Executed' : 'Completed'}
-                </span>
+
+                {/* Content card */}
+                <div
+                  className="rounded-lg p-3 transition-all duration-200"
+                  style={{
+                    background: '#040b16',
+                    border: `1px solid ${dotColor}20`,
+                    borderLeftWidth: '2px',
+                    borderLeftColor: dotColor,
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = `${dotColor}50`}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = `${dotColor}20`; e.currentTarget.style.borderLeftColor = dotColor }}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span
+                          className="font-mono text-[9px] font-bold tracking-widest px-1.5 py-0.5 rounded"
+                          style={{ background: `${meta.color}15`, color: meta.color }}
+                        >
+                          {meta.label}
+                        </span>
+                      </div>
+                      <p className="text-sm font-semibold leading-snug" style={{ color: '#E8F0FE' }}>{label}</p>
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                      <p className="font-mono text-[10px] font-bold" style={{ color: dotColor }}>{timestamp}</p>
+                      <span
+                        className="font-mono text-[9px] px-1.5 py-0.5 rounded mt-1 inline-block"
+                        style={{ background: `${dotColor}12`, color: dotColor }}
+                      >
+                        {isTx ? 'Flagged' : 'Executed'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
+            )
+          })}
+        </div>
       </div>
     </div>
   )

@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from ..dummy_data import security_events
+from app.dummy_data import security_events
 
 router = APIRouter(
     tags=["Security Events"]

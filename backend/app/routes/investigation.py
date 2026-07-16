@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from ..services.correlation import correlate_events
+from app.services.correlation import correlate_events
 
 router = APIRouter(
     tags=["Investigations"]

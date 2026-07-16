@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from ..dummy_data import transactions
+from app.dummy_data import transactions
 
 router = APIRouter(
     tags=["Transactions"]

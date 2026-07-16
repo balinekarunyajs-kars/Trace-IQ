@@ -7,9 +7,20 @@ const api = axios.create({
   timeout: 10000,
 })
 
-export const getDashboard = () => api.get('/dashboard')
-export const getCases = () => api.get('/cases')
-export const getCaseDetail = (caseId) => api.get(`/cases/${caseId}`)
-export const getEvents = () => api.get('/events')
-export const getTransactions = () => api.get('/transactions')
-export const getAnalytics = () => api.get('/analytics')
+// Response interceptor for consistent error handling
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('API Error:', error.response?.data || error.message)
+    return Promise.reject(error)
+  }
+)
+
+export const getDashboard     = () => api.get('/dashboard')
+export const getCases         = () => api.get('/cases')
+export const getCaseDetail    = (caseId) => api.get(`/cases/${caseId}`)
+export const getEvents        = () => api.get('/events')
+export const getTransactions  = () => api.get('/transactions')
+export const getAnalytics     = () => api.get('/analytics')
+
+export default api
