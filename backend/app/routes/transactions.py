@@ -7,4 +7,4 @@ router = APIRouter(
 
 @router.get("/transactions")
 def get_transactions():
-    return [transaction.dict() for transaction in transactions]
+    return transactions
