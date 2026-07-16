@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 # Import Routers
 from .routes.dashboard import router as dashboard_router
 from .routes.investigation import router as investigation_router
+from .routes.events import router as events_router
+from .routes.transactions import router as transactions_router
 
 app = FastAPI(
     title="TraceIQ API",
@@ -23,6 +25,8 @@ app.add_middleware(
 # Register Routes
 app.include_router(dashboard_router)
 app.include_router(investigation_router)
+app.include_router(events_router)
+app.include_router(transactions_router)
 
 @app.get("/")
 def root():
