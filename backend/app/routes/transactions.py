@@ -5,6 +5,18 @@ router = APIRouter(
     tags=["Transactions"]
 )
 
+
 @router.get("/transactions")
 def get_transactions():
-    return transactions
+    return [
+        {
+            "transaction_id": t.transaction_id,
+            "timestamp": t.timestamp,
+            "username": t.username,
+            "amount": t.amount,
+            "beneficiary": t.beneficiary,
+            "location": t.location,
+            "status": t.status,
+        }
+        for t in transactions
+    ]

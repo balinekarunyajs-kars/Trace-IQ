@@ -42,15 +42,15 @@ def correlate_events():
             transactions=user_transactions
         )
 
-        # AI Investigation
+        # AI Investigation — order matters: classify → risk → rootcause → summary
         behaviour = analyze_behaviour(case)
         timeline = build_timeline(case)
-        summary = generate_summary(case)
         case.threat = classify_threat(case)
         risk_score, risk_breakdown = calculate_risk(case)
         case.risk_score = risk_score
         case.root_cause = identify_root_cause(case)
         case.recommendations = generate_recommendations(case)
+        summary = generate_summary(case)   # generated last so threat/risk/root_cause are populated
 
         investigations.append({
             "case": case.dict(),
