@@ -53,19 +53,12 @@ def correlate_events():
         case.recommendations = generate_recommendations(case)
 
         investigations.append({
-
-    "case": case,
-
-    "behaviour_analysis": behaviour,
-
-    "timeline": timeline,
-
-    "risk_breakdown": risk_breakdown,
-
-    "confidence_score": min(case.risk_score + 10, 100),
-
-    "executive_summary": summary
-
-})
+            "case": case.dict(),
+            "behaviour_analysis": behaviour,
+            "timeline": timeline,
+            "risk_breakdown": risk_breakdown,
+            "confidence_score": min(case.risk_score + 10, 100),
+            "executive_summary": summary
+        })
 
     return investigations
