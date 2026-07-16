@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Search, ArrowUpRight } from 'lucide-react'
-import { transactions } from '../data/dummyData'
+import { transactions } from './dummyData'
 
 export default function Transactions() {
   const [searchTerm, setSearchTerm] = useState('')

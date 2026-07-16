@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AlertCircle, Filter } from 'lucide-react'
 import EventTable from '../components/dashboard/EventTable'
-import { securityEvents } from '../data/dummyData'
+import { securityEvents } from './dummyData'
 
 export default function SecurityEvents() {
   const [filter, setFilter] = useState('all')

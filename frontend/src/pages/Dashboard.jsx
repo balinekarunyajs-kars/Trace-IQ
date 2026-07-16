@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Activity, AlertTriangle, Clock, Zap } from 'lucide-react'
 import DashboardCard from '../components/dashboard/DashboardCard'
 import ThreatChart from '../components/dashboard/ThreatChart'
-import { dashboardStats, investigationCases, analyticsData } from '../data/dummyData'
+import { dashboardStats, investigationCases, analyticsData } from './dummyData'
 
 export default function Dashboard() {
   return (
