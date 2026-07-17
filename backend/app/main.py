@@ -24,11 +24,11 @@ app.add_middleware(
 )
 
 # Register Routes — only once, all under /api prefix
-app.include_router(dashboard_router, prefix="/api")
-app.include_router(investigation_router, prefix="/api")
-app.include_router(events_router, prefix="/api")
-app.include_router(transactions_router, prefix="/api")
-app.include_router(analysis_router, prefix="/api")
+app.include_router(dashboard_router)
+app.include_router(investigation_router)
+app.include_router(events_router)
+app.include_router(transactions_router)
+app.include_router(analysis_router)
 
 
 @app.get("/")

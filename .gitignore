@@ -2,9 +2,11 @@
 __pycache__/
 *.pyc
 
-# Virtual environment
+# Virtual environment\
+backend/myenv/
 venv/
 .env
+
 
 # Node modules
 node_modules/
